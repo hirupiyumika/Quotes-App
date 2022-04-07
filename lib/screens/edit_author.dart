@@ -10,6 +10,7 @@ import '../utils/toast_message.dart';
 import '../model/quote.dart';
 import '../service/quote_service.dart';
 
+
 class EditAuthor extends StatefulWidget {
   EditAuthor({Key? key, required this.author}) : super(key: key);
   final AuthorService authorService = AuthorService.getInstance();
