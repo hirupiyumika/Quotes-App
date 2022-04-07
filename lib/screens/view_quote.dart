@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:quotes_app/model/quote.dart';
 import 'package:quotes_app/screens/add_author.dart';
 import 'package:quotes_app/screens/edit_author.dart';
+import 'package:quotes_app/screens/edit_quote.dart';
 import 'package:quotes_app/utils/app_colors.dart';
 import 'package:quotes_app/widgets/author_widget.dart';
 import 'package:quotes_app/widgets/button_widgets.dart';
 import 'package:get/get.dart';
 
+import '../model/author.dart';
+import '../service/author_service.dart';
+
 class ViewQuote extends StatelessWidget {
-  const ViewQuote({Key? key}) : super(key: key);
+  ViewQuote({Key? key, required this.author}) : super(key: key);
+
+  final Author author;
+  // final List<Author> authorsList = AuthorService.getInstance().getAll();
+  // final Quote quote = Quote();
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +111,8 @@ class ViewQuote extends StatelessWidget {
             ),
             Flexible(
               child: ListView.builder(
-                itemCount: myData.length,
+                itemCount: author.quotes.length,
+                // itemCount: myData.length,
                 itemBuilder: (context, index) {
                   return Dismissible(
                     background: leftEditIcon,
@@ -135,7 +145,7 @@ class ViewQuote extends StatelessWidget {
                                       onTap: () {
                                         Get.to(() => AddAuthor(),
                                             transition: Transition.fade,
-                                            duration: Duration(seconds: 1));
+                                            duration: const Duration(seconds: 1));
                                       },
                                       child: ButtonWedget(
                                         backgroundcolor: AppColors.mainColor,
@@ -146,9 +156,9 @@ class ViewQuote extends StatelessWidget {
                                     SizedBox(height: 20),
                                     InkWell(
                                       onTap: () {
-                                        Get.to(() => EditAuthor(),
+                                        Get.to(() => EditQuote(author: author, quoteIndex: index,),
                                             transition: Transition.fade,
-                                            duration: Duration(seconds: 1));
+                                            duration: const Duration(seconds: 1));
                                       },
                                       child: ButtonWedget(
                                         backgroundcolor: AppColors.mainColor,
@@ -179,7 +189,8 @@ class ViewQuote extends StatelessWidget {
                         bottom: 10,
                       ),
                       child: AuthorWediget(
-                        text: myData[index],
+                        text: author.quotes.elementAt(index).quote,
+                        // text: myData[index],
                         color: Colors.blueGrey,
                       ),
                     ),

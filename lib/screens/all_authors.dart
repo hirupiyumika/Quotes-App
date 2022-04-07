@@ -141,7 +141,9 @@ class AllAuthors extends StatelessWidget {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        Get.to(() => const ViewQuote(),
+                                        Get.to(
+                                            () => ViewQuote(
+                                                author: authorsList[index]),
                                             transition: Transition.fade,
                                             duration:
                                                 const Duration(seconds: 1));
@@ -155,7 +157,9 @@ class AllAuthors extends StatelessWidget {
                                     const SizedBox(height: 20),
                                     InkWell(
                                       onTap: () {
-                                        Get.to(() => EditAuthor(),
+                                        Get.to(
+                                            () => EditAuthor(
+                                                author: authorsList[index]),
                                             transition: Transition.fade,
                                             duration:
                                                 const Duration(seconds: 1));

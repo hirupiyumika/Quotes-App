@@ -10,30 +10,34 @@ import '../utils/toast_message.dart';
 import '../model/quote.dart';
 import '../service/quote_service.dart';
 
-class EditAuthor extends StatefulWidget {
-  EditAuthor({Key? key, required this.author}) : super(key: key);
+class EditQuote extends StatefulWidget {
+  EditQuote({Key? key, required this.author, required this.quoteIndex})
+      : super(key: key);
   final AuthorService authorService = AuthorService.getInstance();
   final Author author;
+  final int quoteIndex;
 
   // final Quote quote = Quote.name(status: 'deactive');
 
   @override
-  State<EditAuthor> createState() => _EditAuthorState();
+  State<EditQuote> createState() => _EditQuoteState();
 }
 
-class _EditAuthorState extends State<EditAuthor> {
+class _EditQuoteState extends State<EditQuote> {
+  late Quote quoteObject;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _detailController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    quoteObject = widget.author.quotes.elementAt(widget.quoteIndex);
 
-    _nameController.text = widget.author.name;
+    _nameController.text = quoteObject.quote;
 
     _nameController.addListener(() {
       final String authorName = _nameController.text;
-      debugPrint('AuthorNameTextField: $authorName');
+      debugPrint('QuoteTextField: $authorName');
       widget.author.name = authorName.trim();
 
       // setState(() {
