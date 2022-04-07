@@ -1,3 +1,6 @@
+# Exclude ObjectBox files
+lib/objectbox.g.dart
+
 # Miscellaneous
 *.class
 *.log
