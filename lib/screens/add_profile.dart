@@ -1,59 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:quotes_app/screens/all_authors.dart';
+import 'package:quotes_app/screens/view_profile.dart';
+import 'package:quotes_app/service/profile_service.dart';
 import 'package:quotes_app/utils/app_colors.dart';
 import 'package:quotes_app/widgets/button_widgets.dart';
 import 'package:quotes_app/widgets/textfield_widget.dart';
 import 'package:get/get.dart';
-import '../model/author.dart';
-import '../service/author_service.dart';
+import '../model/profile.dart';
 import '../utils/toast_message.dart';
-import '../model/quote.dart';
-import '../service/quote_service.dart';
 
-class AddAuthor extends StatefulWidget {
-  AddAuthor({Key? key}) : super(key: key);
+class AddProfile extends StatefulWidget {
+  AddProfile({Key? key}) : super(key: key);
 
-  // final Author quote = Author.name(status: 'deactive');
-  final Author author = Author();
-  final Quote quote = Quote();
+  final Profile profile = Profile(0, "", "", "");
 
   @override
-  State<AddAuthor> createState() => _AddAuthorState();
+  State<AddProfile> createState() => _AddProfileState();
 }
 
-class _AddAuthorState extends State<AddAuthor> {
+class _AddProfileState extends State<AddProfile> {
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _detailController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _contactController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
     _nameController.addListener(() {
-      final String author = _nameController.text;
-      debugPrint('AuthorNameTextField: $author');
-      widget.author.name = author.trim();
-
+      final String name = _nameController.text;
+      debugPrint('nameTxtField: $name');
+      widget.profile.name = name.trim();
     });
 
-    _detailController.addListener(() {
-      final String quote = _detailController.text;
-      debugPrint('QuoteTextField: $quote');
-      widget.quote.quote = quote.trim();
+    _emailController.addListener(() {
+      final String email = _emailController.text;
+      debugPrint('email: $email');
+      widget.profile.email = email.trim();
+    });
 
+    _contactController.addListener(() {
+      final String contactNo = _contactController.text;
+      debugPrint('contactNo: $contactNo');
+      widget.profile.contactNo = contactNo.trim();
     });
   }
 
   @override
   void dispose() {
     _nameController.dispose();
-    _detailController.dispose();
+    _emailController.dispose();
+    _contactController.dispose();
     super.dispose();
   }
 
 // validation
   bool doValidation() {
-    return !(widget.author.name.isEmpty && widget.quote.quote.isEmpty);
+    return !(widget.profile.name.isEmpty &&
+        widget.profile.email.isEmpty &&
+        widget.profile.contactNo.isEmpty);
   }
 
   @override
@@ -98,45 +103,47 @@ class _AddAuthorState extends State<AddAuthor> {
                 const SizedBox(height: 20),
                 TextfieldWidget(
                   textController: _nameController,
-                  hintText: "Author Name",
+                  hintText: "Name",
                 ),
                 const SizedBox(height: 20),
                 TextfieldWidget(
-                    textController: _detailController,
-                    hintText: "Write the quote...",
-                    borderRadius: 15,
-                    maxLines: 4),
+                  textController: _emailController,
+                  hintText: "Email",
+                ),
+                const SizedBox(height: 20),
+                TextfieldWidget(
+                  textController: _contactController,
+                  hintText: "Contact",
+                ),
                 const SizedBox(height: 20),
                 InkWell(
                   onTap: () {
                     debugPrint('Click on add button');
-                    try {
-                      final AuthorService authorService =
-                          AuthorService.getInstance();
-                      // Author quote = Author(0, "Hello", "My quote", "true");
-                      Author author = widget.author;
+                    debugPrint('Profile entity details: ');
+                    ProfileService profileService =
+                        ProfileService.getInstance();
 
-                      // adding quotes.
-                      author.quotes.add(widget.quote);
-                      debugPrint('Author entity details: ');
-                      debugPrint(author.toString());
+                    try {
                       if (doValidation()) {
-                        authorService.createAuthor(author);
-                        debugPrint("add author successfully");
-                        Get.to(() => AllAuthors(),
+                        int generatedId = profileService
+                            .createProfile(widget.profile);
+                        debugPrint("add profile successfully");
+
+                          debugPrint(
+                              '************** Author List ***************************');
+                          debugPrint(profileService
+                              .getProfileById(generatedId)
+                              .toString());
+
+                        displayMessage(
+                            'Profile added successfully!', Colors.green);
+
+                        Get.to(() => ViewProfile(),
                             transition: Transition.zoom,
                             duration: const Duration(microseconds: 500));
                       } else {
-                        displayMessage(
-                            'Please fill every field', Colors.red);
+                        displayMessage('Please fill every field', Colors.red);
                       }
-
-                      debugPrint(
-                          '************** Author List ***************************');
-                      authorService.getAll().forEach(
-                          (Author quote) => debugPrint(quote.toString()));
-                      displayMessage(
-                          'Author added successfully!', Colors.green);
                     } catch (e) {
                       debugPrint(e.toString());
                       displayMessage(
@@ -145,13 +152,13 @@ class _AddAuthorState extends State<AddAuthor> {
                   },
                   child: ButtonWedget(
                     backgroundcolor: AppColors.mainColor,
-                    text: "Add",
+                    text: "Create ",
                     textColor: Colors.white,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: MediaQuery.of(context).size.height / 8),
+            SizedBox(height: MediaQuery.of(context).size.height / 10),
           ],
         ),
       ),

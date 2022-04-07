@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:quotes_app/screens/add_author.dart';
+import 'package:quotes_app/screens/add_profile.dart';
 import 'package:quotes_app/screens/all_authors.dart';
-import 'package:quotes_app/screens/my_profile.dart';
+import 'package:quotes_app/screens/update_profile.dart';
+import 'package:quotes_app/screens/view_profile.dart';
 import 'package:quotes_app/utils/app_colors.dart';
 import 'package:quotes_app/widgets/button_widgets.dart';
 import 'package:get/get.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class MyProfile extends StatefulWidget {
+  const MyProfile({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _MyProfileState createState() => _MyProfileState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MyProfileState extends State<MyProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           RichText(
             text: TextSpan(
-                text: "Quote App",
+                text: "My Profile",
                 style: TextStyle(
                   color: AppColors.mainColor,
                   fontSize: 60,
@@ -39,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 children: [
                   TextSpan(
-                    text: "\nStay your beautiful day",
+                    text: "\ncreate your profile for better experience",
                     style: TextStyle(
                       color: AppColors.smallTextColor,
                       fontSize: 14,
@@ -52,37 +54,37 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           InkWell(
             onTap: () {
-              Get.to(() => AddAuthor(),
+              Get.to(() => AddProfile(),
                   transition: Transition.zoom,
                   duration: Duration(microseconds: 500));
             },
             child: ButtonWedget(
               backgroundcolor: AppColors.mainColor,
-              text: "Add Quote",
+              text: "Create Profile",
               textColor: Colors.white,
             ),
           ),
           const SizedBox(height: 20),
           InkWell(
             onTap: () {
-              Get.to(() => AllAuthors(),
+              Get.to(() => ViewProfile(),
                   transition: Transition.fade, duration: Duration(seconds: 1));
             },
             child: ButtonWedget(
               backgroundcolor: AppColors.smallTextColor,
-              text: "View Authors",
+              text: "View Profile",
               textColor: Colors.white,
             ),
           ),
            const SizedBox(height: 20),
           InkWell(
             onTap: () {
-              Get.to(() => MyProfile(),
+              Get.to(() => UpdateProfile(),
                   transition: Transition.fade, duration: Duration(seconds: 1));
             },
             child: ButtonWedget(
               backgroundcolor: AppColors.smallTextColor,
-              text: "My Profile",
+              text: "Update Profile",
               textColor: Colors.white,
             ),
           )

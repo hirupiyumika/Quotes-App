@@ -122,11 +122,11 @@ class _EditAuthorState extends State<EditAuthor> {
                           '************** Quote List ***************************');
                       widget.authorService.getAll().forEach(
                           (Author author) => debugPrint(author.toString()));
-                      displayToastMessage(
+                      displayMessage(
                           'Quote Author successfully!', Colors.green);
                     } catch (e) {
                       debugPrint(e.toString());
-                      displayToastMessage(
+                      displayMessage(
                           'Error: something went wrong!', Colors.red);
                     }
                     Get.to(() => AllAuthors(),
@@ -135,7 +135,7 @@ class _EditAuthorState extends State<EditAuthor> {
                   },
                   child: ButtonWedget(
                     backgroundcolor: AppColors.mainColor,
-                    text: "Save",
+                    text: "Save Author",
                     textColor: Colors.white,
                   ),
                 ),
