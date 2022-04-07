@@ -13,7 +13,7 @@ import '../utils/toast_message.dart';
 class UpdateProfile extends StatefulWidget {
   UpdateProfile({Key? key}) : super(key: key);
 
-  Profile profile = Profile(0, "dfasdfadf", "", "");
+  Profile profile = Profile(0, "", "", "");
 
   @override
   State<UpdateProfile> createState() => _UpdateProfileState();

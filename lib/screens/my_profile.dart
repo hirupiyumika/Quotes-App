@@ -41,7 +41,7 @@ class _MyProfileState extends State<MyProfile> {
                 ),
                 children: [
                   TextSpan(
-                    text: "\ncreate your profile for better experience",
+                    text: "\nCreate your profile for better experience",
                     style: TextStyle(
                       color: AppColors.smallTextColor,
                       fontSize: 14,
