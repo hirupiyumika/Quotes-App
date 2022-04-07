@@ -106,6 +106,7 @@ class _EditQuoteState extends State<EditQuote> {
                 TextfieldWidget(
                   textController: _nameController,
                   hintText: "Author Name",
+                    maxLines: 4
                 ),
                 const SizedBox(height: 20),
                 // TextfieldWidget(
@@ -120,17 +121,17 @@ class _EditQuoteState extends State<EditQuote> {
                     try {
                       Author author = widget.author;
                       widget.authorService.updateAuthor(author);
-                      debugPrint("Edit author succesfully");
+                      debugPrint("Edit quote successfully");
 
                       debugPrint(
                           '************** Quote List ***************************');
                       widget.authorService.getAll().forEach(
                           (Author author) => debugPrint(author.toString()));
-                      displayToastMessage(
-                          'Quote Author successfully!', Colors.green);
+                      displayMessage(
+                          'Quote quote successfully!', Colors.green);
                     } catch (e) {
                       debugPrint(e.toString());
-                      displayToastMessage(
+                      displayMessage(
                           'Error: something went wrong!', Colors.red);
                     }
                     Get.to(() => AllAuthors(),
@@ -139,7 +140,7 @@ class _EditQuoteState extends State<EditQuote> {
                   },
                   child: ButtonWedget(
                     backgroundcolor: AppColors.mainColor,
-                    text: "Save",
+                    text: "Save Quote",
                     textColor: Colors.white,
                   ),
                 ),

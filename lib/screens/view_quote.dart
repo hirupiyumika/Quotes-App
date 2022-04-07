@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:quotes_app/model/quote.dart';
 import 'package:quotes_app/screens/add_author.dart';
+import 'package:quotes_app/screens/all_authors.dart';
 import 'package:quotes_app/screens/edit_author.dart';
 import 'package:quotes_app/screens/edit_quote.dart';
+import 'package:quotes_app/screens/home_screen.dart';
 import 'package:quotes_app/utils/app_colors.dart';
 import 'package:quotes_app/widgets/author_widget.dart';
 import 'package:quotes_app/widgets/button_widgets.dart';
 import 'package:get/get.dart';
-
+import '../utils/toast_message.dart';
 import '../model/author.dart';
 import '../service/author_service.dart';
+import '../widgets/textfield_widget.dart';
 
 class ViewQuote extends StatelessWidget {
   ViewQuote({Key? key, required this.author}) : super(key: key);
@@ -73,9 +76,16 @@ class ViewQuote extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(
-                    Icons.home,
-                    color: AppColors.secondaryColor,
+                  InkWell(
+                    onTap: () {
+                      Get.to(() => HomeScreen(),
+                          transition: Transition.zoom,
+                          duration: const Duration(microseconds: 500));
+                    },
+                    child: Icon(
+                      Icons.home,
+                      color: AppColors.secondaryColor,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Container(
@@ -149,7 +159,7 @@ class ViewQuote extends StatelessWidget {
                                       },
                                       child: ButtonWedget(
                                         backgroundcolor: AppColors.mainColor,
-                                        text: "View",
+                                        text: "Add",
                                         textColor: Colors.white,
                                       ),
                                     ),
@@ -174,8 +184,87 @@ class ViewQuote extends StatelessWidget {
                         );
                         return false;
                       } else {
-                        return Future.delayed(Duration(seconds: 1),
-                            () => direction == DismissDirection.endToStart);
+                        // return Future.delayed(Duration(seconds: 1),
+                        //     () => direction == DismissDirection.endToStart);
+                                                showModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          barrierColor: Colors.transparent,
+                          context: context,
+                          builder: (_) {
+                            return Container(
+                              height: 300,
+                              decoration: BoxDecoration(
+                                  color:
+                                      const Color(0xFF2e3253).withOpacity(0.4),
+                                  borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    topLeft: Radius.circular(20),
+                                  )),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 20,
+                                  right: 20,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        debugPrint('Click on delete button');
+                                        try {
+                                          // AuthorService authorService = AuthorService.getInstance();
+                                          // authorService.deleteAuthorById(authorsList[index].id);
+                                          // debugPrint(
+                                          //     "Author deleted successfully");
+
+                                          // debugPrint(
+                                          //     '************** Quote List ***************************');
+                                          // authorService.getAll().forEach(
+                                          //     (Author author) =>
+                                          //         debugPrint(author.toString()));
+                                          // displayMessage(
+                                          //     "Author deleted successfully",
+                                          //     Colors.red);
+                                          // Get.to(() => const AllAuthors(),
+                                          //     transition: Transition.zoom,
+                                          //     duration: const Duration(microseconds: 500));
+                                        } catch (e) {
+                                          // debugPrint(e.toString());
+                                          displayMessage(
+                                              'Error: something went wrong!',
+                                              Colors.red);
+                                        }
+                                        Get.to(() => AllAuthors(),
+                                            transition: Transition.zoom,
+                                            duration: const Duration(
+                                                microseconds: 500));
+                                      },
+                                      child: ButtonWedget(
+                                        backgroundcolor: AppColors.mainColor,
+                                        text: "Delete",
+                                        textColor: Colors.white,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    InkWell(
+                                      onTap: () {
+                                        Get.to(() => AllAuthors(),
+                                            transition: Transition.fade,
+                                            duration:
+                                                const Duration(seconds: 1));
+                                      },
+                                      child: ButtonWedget(
+                                        backgroundcolor: AppColors.mainColor,
+                                        text: "No",
+                                        textColor: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
                       }
                     },
                     onDismissed: (DismissDirection direction) {
@@ -188,11 +277,17 @@ class ViewQuote extends StatelessWidget {
                         right: 20,
                         bottom: 10,
                       ),
-                      child: AuthorWediget(
-                        text: author.quotes.elementAt(index).quote,
+                      child:
+                      AuthorWediget(
+                          text: author.quotes.elementAt(index).quote,
                         // text: myData[index],
                         color: Colors.blueGrey,
                       ),
+                      // TextfieldWidget(
+                      //     textController: author.quotes.elementAt(index).quote,
+                      //     hintText: "Write the quote...",
+                      //     borderRadius: 15,
+                      //     maxLines: 4),
                     ),
                   );
                 },

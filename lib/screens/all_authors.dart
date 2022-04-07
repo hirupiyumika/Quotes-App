@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quotes_app/model/quote.dart';
 import 'package:quotes_app/screens/edit_author.dart';
+import 'package:quotes_app/screens/home_screen.dart';
 import 'package:quotes_app/screens/view_quote.dart';
 import 'package:quotes_app/utils/app_colors.dart';
 import 'package:quotes_app/widgets/author_widget.dart';
@@ -13,7 +14,7 @@ import '../utils/toast_message.dart';
 
 class AllAuthors extends StatelessWidget {
   AllAuthors({Key? key}) : super(key: key);
-
+  // final AuthorService _authorService = AuthorService.getInstance();
   final List<Author> authorsList = AuthorService.getInstance().getAll();
 
   @override
@@ -72,9 +73,16 @@ class AllAuthors extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(
-                    Icons.home,
-                    color: AppColors.secondaryColor,
+                  InkWell(
+                    onTap: () {
+                      Get.to(() => HomeScreen(),
+                          transition: Transition.zoom,
+                          duration: const Duration(microseconds: 500));
+                    },
+                    child: Icon(
+                      Icons.home,
+                      color: AppColors.secondaryColor,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Container(
@@ -204,27 +212,27 @@ class AllAuthors extends StatelessWidget {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        debugPrint('Click on add button');
+                                        debugPrint('Click on delete button');
                                         try {
-                                          final QuoteService quoteService =
-                                              QuoteService.getInstance();
-                                          // Quote quote = Quote(0, "Hello", "My quote", "true");
-                                          // quoteService.createQuote(quote);
-                                          quoteService.deleteQuoteById(1);
+                                          AuthorService authorService = AuthorService.getInstance();
+                                          authorService.deleteAuthorById(authorsList[index].id);
                                           debugPrint(
-                                              "delete quote succesfully");
+                                              "Author deleted successfully");
 
                                           debugPrint(
                                               '************** Quote List ***************************');
-                                          quoteService.getAll().forEach(
-                                              (Quote quote) =>
-                                                  debugPrint(quote.toString()));
-                                          displayToastMessage(
-                                              'Quote added successfully!',
-                                              Colors.green);
+                                          authorService.getAll().forEach(
+                                              (Author author) =>
+                                                  debugPrint(author.toString()));
+                                          displayMessage(
+                                              "Author deleted successfully",
+                                              Colors.red);
+                                          Get.to(() => const HomeScreen(),
+                                              transition: Transition.zoom,
+                                              duration: const Duration(microseconds: 500));
                                         } catch (e) {
                                           debugPrint(e.toString());
-                                          displayToastMessage(
+                                          displayMessage(
                                               'Error: something went wrong!',
                                               Colors.red);
                                         }

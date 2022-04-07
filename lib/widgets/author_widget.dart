@@ -20,6 +20,7 @@ class AuthorWediget extends StatelessWidget {
       ),
       child: Center(
         child: Text(text, style: TextStyle(
+
           fontSize: 20, color: color,
         ),),
       ),
