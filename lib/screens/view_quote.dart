@@ -14,6 +14,7 @@ import '../model/author.dart';
 import '../service/author_service.dart';
 import '../widgets/textfield_widget.dart';
 
+
 class ViewQuote extends StatelessWidget {
   ViewQuote({Key? key, required this.author}) : super(key: key);
 
