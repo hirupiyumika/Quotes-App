@@ -130,7 +130,7 @@ class _AddProfileState extends State<AddProfile> {
                         debugPrint("add profile successfully");
 
                           debugPrint(
-                              '************** Author List ***************************');
+                              '************** Profile List ***************************');
                           debugPrint(profileService
                               .getProfileById(generatedId)
                               .toString());
